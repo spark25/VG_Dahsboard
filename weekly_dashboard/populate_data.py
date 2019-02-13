@@ -6,7 +6,7 @@ django.setup()
 
 
 import pandas as pd
-from dash_app.models import Registration, VDP, Reward_Sli
+from dash_app.models import Registration, Reward_Sli, Registration_KR, Reward_KR, VDP_Sli_KR
 
 registration_file = 'REGTRESLI2501' 
 VDP_file = 'VDP.xlsx'
@@ -36,7 +36,7 @@ def populate_VDP(data_file):
     try:
         for e in data.T.to_dict().values():
             print(e)
-            obj, created = VDP.objects.get_or_create(
+            obj, created = VDP_Sli_KR.objects.get_or_create(
                 
                date_time = datetime.datetime.strptime(e['TO_CHAR(PUI.REGISTERED_ON+9/24'], "%d-%m-%Y").strftime("%Y-%m-%d"),
                name = e['NAME'],
@@ -66,6 +66,47 @@ def populate_reward(data_file):
 
 
 
-# populate_VDP(VDP_file)
+
+def populate_reg_kr(data_file):
+    data = pd.read_excel(data_file, sheet_name='in')
+
+    print('Population Database')
+
+    try:
+        for e in data.T.to_dict().values():
+            print(e)
+            obj, created = Registration_KR.objects.get_or_create(
+                
+                event_type = e['EVENT_TYPE'],
+                date_time =  e[' DATE_TIME'],
+                count = e['count'],            
+            )
+    except ValueError:
+        print('NaTType does not support utcoffset')
+
+
+def populate_reward_kr(data_file):
+    data = pd.read_excel(data_file, sheet_name='Sheet1')
+
+    print('Population Database')
+
+    try:
+        for e in data.T.to_dict().values():
+            print(e)
+            obj, created = Reward_KR.objects.get_or_create(
+
+                reward = e['REWARD'],
+                awarded_on =datetime.datetime.strptime(e['AWARDED_ON'], "%d-%m/%Y").strftime("%Y-%m-%d"),
+                count = e['COUNT'],
+            )
+    except ValueError:
+        print('NaTType does not support utcoffset')
+
+
+
+
+
+populate_VDP('Korea and SLI data 25th Jan.xlsx')
 #populate_reward('REWARDSSLI.xlsx')
-populate_reg('REGSLI.xlsx')
+# populate_reward_kr('d.xlsx')
+# populate_reg_kr('REGKR.xlsx')

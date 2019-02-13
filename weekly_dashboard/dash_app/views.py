@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from dash_app.models import Registration, VDP, Reward_Sli
+from dash_app.models import Registration, Reward_Sli
 from django.db.models import Sum
 from django_pivot.pivot import pivot
 import datetime, calendar
@@ -65,8 +65,7 @@ def sli_dash(request):
         d= dict(((k.replace(' ',''),v) for k,v in d.items()))
         daily_assess_formatted.append(d)
     #VDP Data
-    VDP_data = VDP.objects.values("partner_system_name").annotate(Sum('count')).filter(name='SLI Japan')
-    print(VDP_data)
+    # VDP_data = VDP.objects.values("partner_system_name").annotate(Sum('count')).filter(name='SLI Japan')
     # Reward Data
     reward_sli_data = Reward_Sli.objects.all()
     # print(reward_sli_data)
@@ -83,6 +82,5 @@ def sli_dash(request):
     'can_data': can_data, 
     'assess_data': assessment,
     'daily_assess': daily_assess_formatted,
-    'VDP_data': VDP_data,
     'reward_sli':reward_sli_formatted,
     'filter_form': DateFilterForm})

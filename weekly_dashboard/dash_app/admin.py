@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Registration, VDP, Reward_Sli, Goals_Sli
+from .models import Registration, Reward_Sli, Goals_Sli, Registration_KR, Reward_KR, Goals_KR, VDP_Sli_KR
 from django.contrib.auth.models import Group
 # Register your models here.
 
@@ -16,7 +16,10 @@ class Reward_SliAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Registration, RegistrationAdmin)
-admin.site.register(VDP)
+admin.site.register(VDP_Sli_KR)
 admin.site.register(Reward_Sli, Reward_SliAdmin)
 admin.site.register(Goals_Sli)
+admin.site.register(Registration_KR)
+admin.site.register(Reward_KR)
+admin.site.register(Goals_KR)
 admin.site.unregister(Group)
