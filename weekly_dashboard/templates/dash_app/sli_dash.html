@@ -1,0 +1,241 @@
+{% extends "dash_app/base.html" %}
+{% load staticfiles %}
+{% load good_key %}
+{% block content %}
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {packages: ['corechart', 'line','bar']});
+      google.charts.setOnLoadCallback(regChart);
+      google.charts.setOnLoadCallback(canChart);
+      google.charts.setOnLoadCallback(assessChart);
+      google.charts.setOnLoadCallback(dailyAssessChart);
+      google.charts.setOnLoadCallback(vdpChart);
+      google.charts.setOnLoadCallback(rewardSliChart);
+      // Callback that creates and populates a data table,
+
+     //REGISTRATION
+      function regChart() {
+        var graph_data = []
+          {% for x  in reg_data %}
+                graph_data.push(['{{x.date_time}}', parseInt('{{x.count}}')]) 
+          {% endfor%}
+        
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'X');
+        data.addColumn('number', 'count');
+        data.addRows(graph_data);
+
+        // Set chart options
+        var options = {
+        hAxis: {
+          title: 'Date'
+        },
+        vAxis: {
+          title: 'Count'
+        },
+        title:'Membership Registration By Date',
+        pointShape: 'circle',
+        pointSize:10,
+        
+      };
+
+        // Instantiate and draw our chart, passing in some options.
+        //var chart = new google.charts.Line(document.getElementById('reg_chart_div'));
+        //chart.draw(data, google.charts.Line.convertOptions(options));
+        var chart = new google.visualization.LineChart(document.getElementById('reg_chart_div'));
+        chart.draw(data, options);
+        
+      }
+
+    //CANCELLATION
+      function canChart() {
+        var graph_data = []
+          {% for x  in can_data %}
+                graph_data.push(['{{x.date_time}}', parseInt('{{x.count}}')]) 
+          {% endfor%}
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'X');
+        data.addColumn('number', 'count');
+        data.addRows(graph_data);
+
+        // Set chart options
+        var options = {
+        hAxis: {
+          title: 'Date',
+        },
+        vAxis: {
+          title: 'Count',
+        },
+        title:'Membership Cancellation By Date',
+        pointShape: 'circle',
+        pointSize:10,
+
+      };
+
+        // Instantiate and draw our chart, passing in some options.
+         var chart = new google.visualization.LineChart(document.getElementById('can_chart_div'));
+         chart.draw(data, options);
+        //var chart = new google.charts.Line(document.getElementById('can_chart_div'));
+        //chart.draw(data, google.charts.Line.convertOptions(options));
+        
+
+      }
+
+
+
+      //ASSESSMENT
+      function assessChart() {
+
+      var data = new google.visualization.DataTable();
+
+      var graph_data = []
+          {% for x  in assess_data %}
+                graph_data.push(['{{x.event_type}}', parseInt('{{x.count__sum}}')]) 
+          {% endfor%}
+
+      data.addColumn('string', 'Assessment');
+      data.addColumn('number', 'Assessment Processed');
+
+      data.addRows(graph_data);
+
+      var options = {
+        title: 'Overview Of Assessment Processed',
+        hAxis: {
+          title: 'Assessment Type',
+        },
+        height:300
+      };
+
+      var chart = new google.charts.Bar(
+        document.getElementById('assess_chart_div'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+    }
+
+
+        // DAILY ASSESSMENT
+        function dailyAssessChart() {
+        // Some raw data (not necessarily accurate)
+        var graph_data = [['Date', 'MWBAssmntCompleted','Mammogram','NonsmokersDeclrtn','PapSmear','SV Document Uploads','VHCAssmntCompleted','VHRAssmntCompleted','VNAAssmntCompleted']]
+        
+        {% for x  in daily_assess %}
+          graph_data.push(['{{x.date_time}}', parseInt('{{x.MWBAssmntCompleted}}'),
+          parseInt('{{x.Mammogram}}'),parseInt('{{x.NonsmokersDeclrtn}}'),
+          parseInt('{{x.PapSmear}}'),parseInt('{{x.SVDocumentUploads}}'),parseInt('{{x.VHCAssmntCompleted}}'),
+          parseInt('{{x.VHRAssmntCompleted}}'),parseInt('{{x.VNAAssmntCompleted}}')])    
+        {% endfor%}
+
+        //console.log(graph_data)
+        var data = google.visualization.arrayToDataTable(graph_data);
+
+        var options = {
+          title : 'Daily Overview of Assessments Processed',
+          vAxis: {title: 'No. of assessment processed'},
+          hAxis: {title: 'Assessments'},
+          //seriesType: 'bars',
+          height:400,
+          //isStacked: true,
+        };
+
+        //var chart = new google.charts.Line(document.getElementById('daily_assess_chart_div'));
+        //chart.draw(data, google.charts.Line.convertOptions(options));
+        var chart = new google.charts.Bar(document.getElementById('daily_assess_chart_div'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+      }
+
+
+      // VDP
+      function vdpChart() {
+
+      var data = new google.visualization.DataTable();
+
+      var graph_data = []
+          {% for x  in VDP_data %}
+                graph_data.push(['{{x.partner_system_name}}', parseInt('{{x.count__sum}}')]) 
+          {% endfor%}
+      
+      //console.log(graph_data)
+      
+      data.addColumn('string', 'Partner System');
+      data.addColumn('number', 'count');
+
+      data.addRows(graph_data);
+
+      var options = {
+        title: 'Vitality Device Platform- device Linking',
+        hAxis: {
+          title: 'Partner System',
+        },
+        // bars: 'horizontal'
+        pieHole: 0.4,
+        
+      };
+
+        //var chart = new google.charts.Bar(document.getElementById('vdp_chart_div'));
+       // chart.draw(data, google.charts.Bar.convertOptions(options));
+        var chart = new google.visualization.PieChart(document.getElementById('vdp_chart_div'));
+        chart.draw(data, options);
+
+
+    }
+
+
+    // Rewards_SLI
+    function rewardSliChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Date');
+      data.addColumn('number', 'Apple Watch Vitality Coins');
+      data.addColumn('number', 'eGift (JPY500)');
+      data.addColumn('number', 'MACHI cafe drink(S)');
+      data.addColumn('number', 'Smoothies');
+      data.addColumn('number', 'WheelSpin');
+
+      var graph_data = [];
+      {% for x  in reward_sli %}
+          graph_data.push(['{{x.awarded_on}}', parseInt('{{x.AppleWatchVitalityCoins}}'),
+          parseInt('{{x.eGiftJPY500}}'),parseInt('{{x.MACHIcafedrinkS}}'),
+          parseInt('{{x.Smoothies}}'), parseInt('{{x.WheelSpin}}'),])    
+      {% endfor%}
+
+      // console.log(graph_data)
+      data.addRows(graph_data);
+
+      var options = {
+        chart: {
+          title: 'Rewards Allocated by Date',
+          subtitle: 'count'
+        },
+        width: 600,
+        height: 400
+      };
+
+      var chart = new google.charts.Line(document.getElementById('reward_sli_chart_div'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+
+      //Show time on page
+      var d = new Date();
+      document.getElementById("time-display").innerHTML = d;
+    }      
+
+    </script>
+    <!--Div that will hold the pie chart-->
+      {% include 'dash_app/page_header.html' with market="SLI-Japan Dashboard" %}
+      
+      <div class="wrapper">
+      <div id="reg_chart_div"></div>
+      <div id="can_chart_div"></div>
+      <div id="assess_chart_div"></div>
+      <div id="vdp_chart_div"></div>
+      <div id="daily_assess_chart_div"></div>
+      <div id="reward_sli_chart_div"></div>
+      <div id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div>
+      <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    
+  {% endblock  %}
