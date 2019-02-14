@@ -7,10 +7,6 @@
   <div id="header_item_b">
       <form method="GET" novalidate>
         {% csrf_token %}
-        
-          <!-- <div><input type="date" name="from-date" id="from-date" required class="date-field" style="width: 150px;"></div>
-          <label for="to-date"> To: </label>
-          <div><input type="date" name="to-date" id="to-date" required class="date-field" style="width: 150px;"></div> -->
           {{filter_form}}
         <input type="submit" value="Fetch" class="btn btn-outline-dark head_button" style="margin-top:10px;">
       </form>
@@ -30,5 +26,8 @@
     $('#id_to_date').datepicker({
             uiLibrary: 'bootstrap4'
         });
+    
+    var d = new Date();
+    document.getElementById("time-display").innerHTML = d;
 </script>
 

@@ -2,20 +2,21 @@
 {% load staticfiles %}
 {% load good_key %}
 {% block content %}
-    <script type="text/javascript">
 
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {packages: ['corechart', 'line','bar']});
-      google.charts.setOnLoadCallback(regChart);
-      google.charts.setOnLoadCallback(canChart);
-      google.charts.setOnLoadCallback(assessChart);
-      google.charts.setOnLoadCallback(dailyAssessChart);
-      google.charts.setOnLoadCallback(vdpChart);
-      google.charts.setOnLoadCallback(rewardSliChart);
-      // Callback that creates and populates a data table,
+<script type="text/javascript">
 
-     //REGISTRATION
-      function regChart() {
+google.charts.load('current', {packages: ['corechart', 'line','bar']});
+google.charts.setOnLoadCallback(regChart);
+google.charts.setOnLoadCallback(vdpChart);
+google.charts.setOnLoadCallback(canChart);
+google.charts.setOnLoadCallback(assessChart);
+google.charts.setOnLoadCallback(dailyAssessChart);
+google.charts.setOnLoadCallback(vdpChart);
+google.charts.setOnLoadCallback(rewardKrChart);
+// Callback that creates and populates a data table,
+
+//REGISTRATION
+function regChart() {
         var graph_data = []
           {% for x  in reg_data %}
                 graph_data.push(['{{x.date_time}}', parseInt('{{x.count}}')]) 
@@ -48,6 +49,7 @@
         chart.draw(data, options);
         
       }
+
 
     //CANCELLATION
       function canChart() {
@@ -149,44 +151,8 @@
       }
 
 
-      // VDP
-      function vdpChart() {
-
-      var data = new google.visualization.DataTable();
-
-      var graph_data = []
-          {% for x  in vdp %}
-                graph_data.push(['{{x.partner_system_name}}', parseInt('{{x.count__sum}}')]) 
-          {% endfor%}
-      
-      //console.log(graph_data)
-      
-      data.addColumn('string', 'Partner System');
-      data.addColumn('number', 'count');
-
-      data.addRows(graph_data);
-
-      var options = {
-        title: 'Vitality Device Platform- device Linking',
-        hAxis: {
-          title: 'Partner System',
-        },
-        // bars: 'horizontal'
-        pieHole: 0.4,
-        
-      };
-
-        //var chart = new google.charts.Bar(document.getElementById('vdp_chart_div'));
-       // chart.draw(data, google.charts.Bar.convertOptions(options));
-        var chart = new google.visualization.PieChart(document.getElementById('vdp_chart_div'));
-        chart.draw(data, options);
-
-
-    }
-
-
-    // Rewards_SLI
-    function rewardSliChart() {
+    // Rewards_KR
+    function rewardKrChart() {
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Date');
       data.addColumn('number', 'Apple Watch Vitality Coins');
@@ -196,7 +162,7 @@
       data.addColumn('number', 'WheelSpin');
 
       var graph_data = [];
-      {% for x  in reward_sli %}
+      {% for x  in reward_kr %}
           graph_data.push(['{{x.awarded_on}}', parseInt('{{x.AppleWatchVitalityCoins}}'),
           parseInt('{{x.eGiftJPY500}}'),parseInt('{{x.MACHIcafedrinkS}}'),
           parseInt('{{x.Smoothies}}'), parseInt('{{x.WheelSpin}}'),])    
@@ -214,27 +180,61 @@
         height: 400
       };
 
-      var chart = new google.charts.Line(document.getElementById('reward_sli_chart_div'));
+      var chart = new google.charts.Line(document.getElementById('reward_kr_chart_div'));
 
       chart.draw(data, google.charts.Line.convertOptions(options));
-    }      
-    
-      //Show time on page
-      var d = new Date();
-      document.getElementById("time-display").innerHTML = d;
 
-    </script>
-      {% include 'dash_app/page_header.html' with market="SLI-Japan Dashboard" %}
-      
-      <div class="wrapper">
-      <div id="reg_chart_div"></div>
-      <div id="can_chart_div"></div>
-      <div id="assess_chart_div"></div>
-      <div id="vdp_chart_div"></div>
-      <div id="daily_assess_chart_div"></div>
-      <div id="reward_sli_chart_div"></div>
-      <div id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div>
-      <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
-    
-  {% endblock  %}
+    }
+    // VDP
+    function vdpChart() {
+
+    var data = new google.visualization.DataTable();
+
+    var graph_data = []
+    {% for x  in vdp %}
+            graph_data.push(['{{x.partner_system_name}}', parseInt('{{x.count__sum}}')]) 
+    {% endfor%}
+
+        //console.log(graph_data)
+
+        data.addColumn('string', 'Partner System');
+        data.addColumn('number', 'count');
+
+        data.addRows(graph_data);
+
+        var options = {
+        title: 'Vitality Device Platform- device Linking',
+        hAxis: {
+            title: 'Partner System',
+        },
+        // bars: 'horizontal'
+        pieHole: 0.4,
+        
+        };
+
+        //var chart = new google.charts.Bar(document.getElementById('vdp_chart_div'));
+        // chart.draw(data, google.charts.Bar.convertOptions(options));
+        var chart = new google.visualization.PieChart(document.getElementById('vdp_chart_div'));
+        chart.draw(data, options);
+
+
+        }
+
+       
+
+
+</script>
+
+{% include 'dash_app/page_header.html' with market="AIA-Korea" %}  
+<div class="wrapper">
+       
+    <div id="reg_chart_div"></div>
+    <div id="can_chart_div"></div>
+    <div id="assess_chart_div"></div>
+    <div id="vdp_chart_div"></div>
+    <div id="daily_assess_chart_div"></div>
+    <div id="reward_kr_chart_div"></div>
+    <div id="goals_kr_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div>
+</div>
+
+{% endblock content %}
