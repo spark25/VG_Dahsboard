@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block content%}
-<div class="jumbotron jumbotron-fluid">
+<div class="jumbotron jumbotron-fluid" style="box-shadow: 0px 5px 10px #ccc;">
   <div class="container">
     <h3 class="display-6">VG Weekly Dashboard</h3>
     <p class="lead">Click market tile below to see detailed dashboard</p>
@@ -10,8 +10,12 @@
 </div>
 
 <div style="display:grid; grid-template-columns: 1fr 1fr; grid-gap:5px; color:#fff">
-<a href="{% url 'sli_dash' %}" style="text-decoration: none; color:#fff"><div id="sli">SLI-Japan</div></a>
-<a href="{% url 'kr_dash' %}" style="text-decoration: none; color:#fff"><div id="korea">AIA-Korea</div></a>
+  <a href="{% url 'sli_dash' %}" style="text-decoration: none; color:#fff">
+    <div id="sli">SLI-Japan</div>
+  </a>
+  <a href="{% url 'kr_dash' %}" style="text-decoration: none; color:#fff">
+    <div id="korea">AIA-Korea</div>
+  </a>
 </div>
 
 {% endblock %}

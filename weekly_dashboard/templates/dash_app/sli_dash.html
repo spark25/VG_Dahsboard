@@ -37,8 +37,8 @@
         },
         title:'Membership Registration By Date',
         pointShape: 'circle',
-        pointSize:10,
-        
+        pointSize:10,   
+        height: 300,     
       };
 
         // Instantiate and draw our chart, passing in some options.
@@ -73,6 +73,7 @@
         title:'Membership Cancellation By Date',
         pointShape: 'circle',
         pointSize:10,
+        height: 300,
 
       };
 
@@ -110,9 +111,14 @@
         height:300
       };
 
-      var chart = new google.charts.Bar(
+      // var chart = new google.chart.Bar(
+      //   document.getElementById('assess_chart_div'));
+      //   chart.draw(data, google.charts.Bar.convertOptions(options));
+
+      var chart = new google.visualization.ColumnChart(
         document.getElementById('assess_chart_div'));
-        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+      chart.draw(data, options);
 
     }
 
@@ -136,15 +142,21 @@
           title : 'Daily Overview of Assessments Processed',
           vAxis: {title: 'No. of assessment processed'},
           hAxis: {title: 'Assessments'},
-          //seriesType: 'bars',
+          seriesType: 'bars',
           height:400,
-          //isStacked: true,
+          // isStacked: true,
+          pointShape: 'circle',
+          pointSize:10,
+          height: 300,
         };
 
-        //var chart = new google.charts.Line(document.getElementById('daily_assess_chart_div'));
-        //chart.draw(data, google.charts.Line.convertOptions(options));
-        var chart = new google.charts.Bar(document.getElementById('daily_assess_chart_div'));
-        chart.draw(data, google.charts.Bar.convertOptions(options));
+        // var chart = new google.charts.Line(document.getElementById('daily_assess_chart_div'));
+        // chart.draw(data, google.charts.Line.convertOptions(options));
+        // var chart = new google.charts.Bar(document.getElementById('daily_assess_chart_div'));
+        // chart.draw(data, google.charts.Bar.convertOptions(options));
+        var chart = new google.visualization.ComboChart(document.getElementById('daily_assess_chart_div'));
+        chart.draw(data, options);
+
 
       }
 
@@ -173,6 +185,7 @@
         },
         // bars: 'horizontal'
         pieHole: 0.4,
+        height: 300,
         
       };
 
@@ -206,17 +219,17 @@
       data.addRows(graph_data);
 
       var options = {
-        chart: {
-          title: 'Rewards Allocated by Date',
-          subtitle: 'count'
-        },
-        width: 600,
-        height: 400
+        title: 'Rewards Allocated by Date',
+        height: 300,
+        pointShape: 'circle',
+        pointSize:10,
       };
 
-      var chart = new google.charts.Line(document.getElementById('reward_sli_chart_div'));
+      // var chart = new google.charts.Line(document.getElementById('reward_sli_chart_div'));
+      // chart.draw(data, google.charts.Line.convertOptions(options));
+      var chart = new google.visualization.ComboChart(document.getElementById('reward_sli_chart_div'));
+      chart.draw(data, options);
 
-      chart.draw(data, google.charts.Line.convertOptions(options));
     }      
     
       //Show time on page
@@ -227,14 +240,13 @@
       {% include 'dash_app/page_header.html' with market="SLI-Japan Dashboard" %}
       
       <div class="wrapper">
-      <div id="reg_chart_div"></div>
-      <div id="can_chart_div"></div>
-      <div id="assess_chart_div"></div>
-      <div id="vdp_chart_div"></div>
-      <div id="daily_assess_chart_div"></div>
-      <div id="reward_sli_chart_div"></div>
-      <div id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div>
-      <canvas id="myChart" width="400" height="400"></canvas>
+      <div class="card" id="reg_chart_div"></div>
+      <div id="can_chart_div" class="card"></div>
+      <div id="assess_chart_div" class="card"></div>
+      <div id="vdp_chart_div" class="card"></div>
+      <div class="card" id="daily_assess_chart_div"></div>
+      <div id="reward_sli_chart_div" class="card"></div>
+      <div class="card" id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div>
     </div>
     
   {% endblock  %}

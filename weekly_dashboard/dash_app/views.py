@@ -35,9 +35,6 @@ def sli_dash(request):
     else:
         d1 = get_friday()
         d2 = d1 - datetime.timedelta(days=7)
-    
-    print(d1)
-    print(d2)
 
     reg_data = Registration.objects.filter(event_type='ActivateVMembership', date_time__range=(d2,d1)).order_by('date_time')
     can_data = Registration.objects.filter(event_type='CancelVMembership', date_time__range=(d2,d1)).order_by('date_time')
@@ -137,6 +134,8 @@ def kr_dash(request):
         d = dict(((k.replace('(',''),v) for k,v in d.items()))
         d = dict(((k.replace(')',''),v) for k,v in d.items()))
         reward_kr_formatted.append(d)
+    
+    print(reward_kr_formatted)
 
     return render(request, 'dash_app/kr_dash.html', {'reg_data': reg_data, 
     'can_data': can_data, 
