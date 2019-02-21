@@ -14,12 +14,15 @@ class Reward_SliAdmin(admin.ModelAdmin):
     fields = ['reward', 'awarded_on', 'count']
     list_display = ['reward', 'awarded_on', 'count']
 
+class Reward_KRAdmin(admin.ModelAdmin):
+    fields = ['reward', 'awarded_on', 'count']
+    list_display = ['reward', 'awarded_on', 'count']
 
 admin.site.register(Registration, RegistrationAdmin)
 admin.site.register(VDP_Sli_KR)
 admin.site.register(Reward_Sli, Reward_SliAdmin)
 admin.site.register(Goals_Sli)
 admin.site.register(Registration_KR)
-admin.site.register(Reward_KR)
+admin.site.register(Reward_KR,Reward_KRAdmin)
 admin.site.register(Goals_KR)
 admin.site.unregister(Group)

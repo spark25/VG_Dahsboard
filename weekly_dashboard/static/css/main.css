@@ -58,7 +58,7 @@
 }
 
 #sli:hover {
-    box-shadow: 5px 10px 20px #b2bec3;
+    box-shadow: 5px 10px 30px #888888;
 }
 
 #korea {
@@ -69,33 +69,36 @@
 }
 
 #korea:hover {
-    box-shadow: 5px 10px 20px #b2bec3;
+    box-shadow: 5px 10px 30px #888888;
 }
-
 
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 5px;
-    grid-row-gap: 10px;
+    grid-row-gap: 5px;
 }
-
-
 
 #daily_assess_chart_div {
     grid-column-start: 1;
     grid-column-end: 3;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
+#reward_chart_div {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    /* padding: 10px; */
+}
+
+
 #page_header {
-    background: #E9ECEF;
     padding: 10px;
     margin-bottom: 50px;
     display: grid;
     grid-template-columns: 55% auto 20%;
     grid-template-rows: 100px 30px;
-    box-shadow: 0px 5px 10px #ccc;
+    box-shadow: 0px 5px 30px #ccc;
 }
 
 .date-field {

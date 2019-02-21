@@ -147,7 +147,7 @@
           // isStacked: true,
           pointShape: 'circle',
           pointSize:10,
-          height: 300,
+          height: 400,
         };
 
         // var chart = new google.charts.Line(document.getElementById('daily_assess_chart_div'));
@@ -220,14 +220,14 @@
 
       var options = {
         title: 'Rewards Allocated by Date',
-        height: 300,
+        height: 400,
         pointShape: 'circle',
         pointSize:10,
       };
 
       // var chart = new google.charts.Line(document.getElementById('reward_sli_chart_div'));
       // chart.draw(data, google.charts.Line.convertOptions(options));
-      var chart = new google.visualization.ComboChart(document.getElementById('reward_sli_chart_div'));
+      var chart = new google.visualization.ComboChart(document.getElementById('reward_chart_div'));
       chart.draw(data, options);
 
     }      
@@ -245,8 +245,8 @@
       <div id="assess_chart_div" class="card"></div>
       <div id="vdp_chart_div" class="card"></div>
       <div class="card" id="daily_assess_chart_div"></div>
-      <div id="reward_sli_chart_div" class="card"></div>
-      <div class="card" id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div>
+      <div id="reward_chart_div" class="card"></div>
+      <!-- <div class="card" id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div> -->
     </div>
     
   {% endblock  %}
