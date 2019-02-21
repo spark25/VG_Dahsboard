@@ -64,7 +64,7 @@ def sli_dash(request):
     #VDP Data
     VDP_data = VDP_Sli_KR.objects.values("partner_system_name").annotate(Sum('count')).filter(name='SLI Japan')
     # Reward Data
-    reward_sli_data = Reward_Sli.objects.all()
+    reward_sli_data = Reward_Sli.objects.filter(awarded_on__range=(d2,d1))
     # print(reward_sli_data)
     reward_sli_pivot = pivot(reward_sli_data, 'awarded_on', 'reward','count')
     
@@ -124,7 +124,7 @@ def kr_dash(request):
     #VDP Data
     VDP_data = VDP_Sli_KR.objects.values("partner_system_name").annotate(Sum('count')).filter(name='AIA Republic of Korea')
     # Reward Data
-    reward_kr_data = Reward_KR.objects.all()
+    reward_kr_data = Reward_KR.objects.filter(awarded_on__range=(d2,d1))
     # print(reward_sli_data)
     reward_kr_pivot = pivot(reward_kr_data, 'awarded_on', 'reward','count')
     

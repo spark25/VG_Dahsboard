@@ -5,11 +5,12 @@
 }
 
 #topnav {
-    color: #E0E0E0;
+    /* background-image: linear-gradient(45deg, #4481eb 0%, #04befe 100%); */
+    /* background: #fff; */
+    color: #888;
     padding: 1%;
-    background-image: linear-gradient(45deg, #0067b0, #003780);
     max-height: 50px;
-    box-shadow: 0px 10px 20px #ccc;
+    /* box-shadow: rgba(36, 37, 38, 0.08) 0px 6px 15px 0px; */
 }
 
 #topnav a:hover {
@@ -22,25 +23,36 @@
 
 #topnav-links ul li {
     display: inline;
-    padding: 5px;
+    padding: 5px; 
 }
 
 #topnav-links ul li a {
-    color: #E0E0E0;
+    color: #1BA5E7;
+    text-decoration: none;
 }
 
 #topnav-links ul li a:hover {
-    color: mintcream;
+    color: #39d5ff;
 }
 
 #brand {
     font-size: 22px;
-    font-family: 'Oswald', sans-serif;
-    color: #f5ab35;
+    font-family: 'Comfortaa', cursive;
+    color:#1BA5E7;
 }
 
 #content {
     padding: 2%;
+    /* margin-top: 60px; */
+}
+
+.welcome-box{
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    padding: 50px;
+    margin-bottom: 50px;
+    box-shadow: rgba(36, 37, 38, 0.08) 0px 6px 15px 0px;
+    border-radius: 20px;
+
 }
 
 .landing {
@@ -49,40 +61,50 @@
 
 }
 
+
 #sli {
 
-    background-image: linear-gradient(45deg, #9C27B0, #E91E63);
+    background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
     height: 250px;
     padding: 5%;
     font-size: 24px;
+    border-radius: 20px;
 }
 
 #sli:hover {
-    box-shadow: 5px 10px 30px #888888;
+    box-shadow: 1px 10px 20px 1px rgba(36, 37, 38, 0.2);
 }
 
 #korea {
-    background-image: linear-gradient(-45deg, #03A9F4, #3F51B5);
+    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
     height: 250px;
     padding: 5%;
     font-size: 24px;
+    border-radius: 20px;
 }
 
 #korea:hover {
-    box-shadow: 5px 10px 30px #888888;
+    box-shadow: 1px 10px 20px 1px rgba(36, 37, 38, 0.2);
 }
 
 .wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.card_box{
+    border-radius: 20px;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 1px 10px 20px 1px rgba(36, 37, 38, 0.08);
 }
 
 #daily_assess_chart_div {
     grid-column-start: 1;
     grid-column-end: 3;
-    /* padding: 10px; */
+
 }
 
 #reward_chart_div {
@@ -93,25 +115,26 @@
 
 
 #page_header {
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
     padding: 10px;
     margin-bottom: 50px;
     display: grid;
     grid-template-columns: 55% auto 20%;
     grid-template-rows: 100px 30px;
-    box-shadow: 0px 5px 30px #ccc;
+    box-shadow: rgba(36, 37, 38, 0.08) 0px 6px 15px 0px;
+    border-radius: 20px;
 }
 
 .date-field {
     padding: 1px;
     border: 1px solid #cacccc;
     color: #cacccc;
-
-
 }
 
 #id_from_date {
     width: 276;
 }
+
 
 #id_to_date {
     width: 150;
