@@ -75,7 +75,7 @@ def sli_dash(request):
         d = dict(((k.replace(')',''),v) for k,v in d.items()))
         reward_sli_formatted.append(d)
 
-    return render(request, 'dash_app/sli_dash.html', {'reg_data': reg_data, 
+    return render(request, 'dash_app/sli_dash_cjs.html', {'reg_data': reg_data, 
     'can_data': can_data, 
     'assess_data': assessment,
     'daily_assess': daily_assess_formatted,
@@ -135,7 +135,7 @@ def kr_dash(request):
         d = dict(((k.replace(')',''),v) for k,v in d.items()))
         reward_kr_formatted.append(d)
     
-    # print(reward_kr_formatted)
+    print(daily_assess_formatted)
 
     return render(request, 'dash_app/kr_dash.html', {'reg_data': reg_data, 
     'can_data': can_data, 

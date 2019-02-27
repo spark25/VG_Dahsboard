@@ -1,6 +1,5 @@
 {% extends "dash_app/base.html" %}
 {% load staticfiles %}
-{% load good_key %}
 {% block content %}
     <script type="text/javascript">
 
@@ -235,11 +234,12 @@
       //Show time on page
       var d = new Date();
       document.getElementById("time-display").innerHTML = d;
+    
 
     </script>
       {% include 'dash_app/page_header.html' with market="SLI-Japan Dashboard" %}
       
-      <div class="wrapper">
+    <div class="wrapper">
       <div class="card_box " id="reg_chart_div"></div>
       <div id="can_chart_div" class="card_box"></div>
       <div id="assess_chart_div" class="card_box"></div>
@@ -248,5 +248,6 @@
       <div id="reward_chart_div" class="card_box"></div>
       <!-- <div class="card" id="goals_sli_chart_div"><h4 style="color:slategrey; text-align:center;margin-top:80px;">Goals Data Coming Soon..</h4></div> -->
     </div>
-    
+
+    <script>  
   {% endblock  %}

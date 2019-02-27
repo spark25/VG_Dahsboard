@@ -1,0 +1,284 @@
+{% extends "dash_app/base.html" %}
+{% load staticfiles %}
+{% load good_key %}
+{% block content %}
+
+
+
+{% include 'dash_app/page_header.html' with market="SLI-Japan Dashboard" %}
+
+<div class="wrapper">
+    <div class="card_box">
+        <canvas id="reg_chart"></canvas>
+    </div>
+        
+    <div class="card_box">
+        <canvas id="can_chart" ></canvas>
+    </div>
+        
+    <div class="card_box">
+        <canvas id="assess_chart" width="200" height="150"></canvas>
+    </div>
+        
+    <div class="card_box">
+            <canvas id="vdp_chart" width="200" height="150"></canvas>
+    </div>
+    <div class="card_box">
+            <canvas id="daily_assess_chart" width="500" height="600"></canvas>
+    </div>
+
+</div>
+
+<script>
+    //Registration Chart
+    {
+        let x_axis = []
+        let y_axis = []
+        {% for x  in reg_data %}
+            x_axis.push('{{ x.date_time }}') 
+            y_axis.push(parseInt('{{ x.count }}'))
+        {% endfor%}
+        const ctx = document.getElementById('reg_chart').getContext('2d');
+        var chart = new Chart(ctx, {
+
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: x_axis,
+                datasets: [{
+                    // lineTension: 0,
+                    fill: false,
+                    label: "Registrations",
+                    borderColor: '#1BA5E7',
+                    data: y_axis,
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                // legend :{
+                //     display:true,
+                // }
+            }
+        });
+    }
+
+    //Cancellation Chart
+    {
+        let x_axis = []
+        let y_axis = []
+        {% for x  in can_data %}
+            x_axis.push('{{ x.date_time }}') 
+            y_axis.push(parseInt('{{ x.count }}'))
+        {% endfor%}
+        const ctx = document.getElementById('can_chart').getContext('2d');
+        var chart = new Chart(ctx, {
+
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: x_axis,
+                datasets: [{
+                    // lineTension: 0,
+                    fill: false,
+                    label: "Cancellation",
+                    borderColor: '#1BA5E7',
+                    data: y_axis,
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                // legend :{
+                //     display:true,
+                // }
+            }
+        });
+    }
+
+    //Assessment_Chart
+    {
+        let x_axis = []
+        let y_axis = []
+        {% for x  in assess_data %}
+            x_axis.push('{{ x.event_type }}') 
+            y_axis.push(parseInt('{{ x.count__sum }}'))
+        {% endfor%}
+        const ctx = document.getElementById('assess_chart').getContext('2d');
+        var chart = new Chart(ctx, {
+
+            // The type of chart we want to create
+            type: 'horizontalBar',
+
+            // The data for our dataset
+            data: {
+                labels: x_axis,
+                datasets: [{
+                    lineTension: 0,
+                    fill: false,
+                    label: "Assessments Processed",
+                    backgroundColor:'rgba(27, 156, 252,0.5)',
+                    hoverBorderColor: 'rgb(27, 156, 252)',
+                    borderWidth:1,
+                    data: y_axis,
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                // legend :{
+                //     display:true,
+                // }
+            }
+        });
+    }
+
+    //VDP Chart
+    {
+        let x_axis = []
+        let y_axis = []
+        {% for x  in vdp %}
+            x_axis.push('{{ x.partner_system_name }}') 
+            y_axis.push(parseInt('{{ x.count__sum }}'))
+        {% endfor%}
+        const ctx = document.getElementById('vdp_chart').getContext('2d');
+        var chart = new Chart(ctx, {
+
+            // The type of chart we want to create
+            type: 'doughnut',
+
+            // The data for our dataset
+            data: {
+                labels: x_axis,
+                datasets: [{
+                    lineTension: 0,
+                    fill: false,
+                    label: "VDP",
+                    data: y_axis,
+                    backgroundColor:['rgba(254, 164, 127,0.5)','rgba(37, 204, 247,0.5)','rgba(85, 230, 193,0.5)','rgba(179, 55, 113,0.5)','rgba(252, 66, 123,0.5)','rgba(24, 44, 97,0.5)'],
+                    hoverBorderColor:['rgba(254, 164, 127,1.0)','rgba(37, 204, 247,1.0)','rgba(85, 230, 193,1.0)','rgba(179, 55, 113,1.0)','rgba(252, 66, 123,1.0)','rgba(24, 44, 97,1.0)'],
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                anmation:{
+                    animateRotate: false,
+                    animateScale: true,
+                }
+            }
+        });
+    }
+
+    //Daily Assess Chart
+
+    {
+        let x_axis = []
+        let ds1 = []
+        let ds2 = []
+        let ds3 = []
+        let ds4 = []
+        let ds5 = []
+        let ds6 = []
+        let ds7 = []
+        let ds8 = []
+        {% for x  in daily_assess %}
+            x_axis.push('{{ x.date_time }}') 
+            ds1.push(parseInt('{{ x.MWBAssmntCompleted}}'))
+            ds2.push(parseInt('{{ x.Mammogram}}'))
+            ds3.push(parseInt('{{ x.NonsmokersDeclrtn}}'))
+            ds4.push(parseInt('{{ x.PapSmear}}'))
+            ds5.push(parseInt('{{ x.SVDocumentUploads}}'))
+            ds6.push(parseInt('{{ x.VHCAssmntCompleted}}'))
+            ds7.push(parseInt('{{ x.VHRAssmntCompleted}}'))
+            ds8.push(parseInt('{{ x.VNAAssmntCompleted}}'))
+        {% endfor%}
+        const ctx = document.getElementById('daily_assess_chart').getContext('2d');
+        var chart = new Chart(ctx, {
+
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: x_axis,
+                datasets: [{
+                   label: 'MWBAssmntCompleted',
+                   data: ds1,
+                   backgroundColor: 'rgba(239, 87, 119,1.0)',
+                },
+                {
+                   label: 'Mammogram',
+                   data: ds2,
+                   backgroundColor: 'rgba(75, 207, 250,1.0)',
+                },
+                {
+                   label: 'NonsmokersDeclrtn',
+                   data: ds3,
+                   backgroundColor: 'rgba(52, 231, 228,1.0)',
+                },
+                {
+                   label: 'PapSmear',
+                   data: ds4,
+                   backgroundColor: 'rgba(11, 232, 129,1.0)',
+                },
+                {
+                   label: 'SVDocumentUploads',
+                   data: ds5,
+                   backgroundColor: 'rgba(255, 221, 89,1.0)',
+                },
+                {
+                   label: 'VHCAssmntCompleted',
+                   data: ds6,
+                   backgroundColor: 'rgba(87, 95, 207,1.0)',
+                },
+                {
+                   label: 'VHRAssmntCompleted',
+                   data: ds7,
+                   backgroundColor: 'rgba(113, 88, 226,1.0)',
+                },
+                {
+                   label: 'VNAAssmntCompleted',
+                   data: ds8,
+                   backgroundColor: 'rgba(255, 184, 184,1.0)',
+                }
+                ],
+
+                backgroundColor:['rgba(239, 87, 119,1.0)',
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ],
+            },
+
+            // Configuration options go here
+            options: {
+					title: {
+						display: true,
+						text: 'Daily Assessment Overview'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+        });
+    }
+</script>
+{% endblock content %}
