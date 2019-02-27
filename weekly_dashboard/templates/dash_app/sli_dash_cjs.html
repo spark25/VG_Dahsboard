@@ -9,23 +9,27 @@
 
 <div class="wrapper">
     <div class="card_box">
-        <canvas id="reg_chart"></canvas>
+        <canvas id="reg_chart" width="300" height="150"></canvas>
     </div>
         
     <div class="card_box">
-        <canvas id="can_chart" ></canvas>
+        <canvas id="can_chart" width="300" height="150"></canvas>
     </div>
         
     <div class="card_box">
-        <canvas id="assess_chart" width="200" height="150"></canvas>
+        <canvas id="assess_chart" width="300" height="150"></canvas>
     </div>
         
     <div class="card_box">
-            <canvas id="vdp_chart" width="200" height="150"></canvas>
+            <canvas id="vdp_chart" width="300" height="150"></canvas>
     </div>
-    <div class="card_box">
-            <canvas id="daily_assess_chart" width="500" height="600"></canvas>
+    <div class="card_box" id="daily_assess_chart_div">
+            <canvas id="daily_assess_chart" ></canvas>
     </div>
+
+    <div class="card_box" id="reward_chart_div">
+        <canvas id="rewards_chart"></canvas>
+</div>
 
 </div>
 
@@ -42,17 +46,19 @@
         var chart = new Chart(ctx, {
 
             // The type of chart we want to create
-            type: 'bar',
+            type: 'line',
 
             // The data for our dataset
             data: {
                 labels: x_axis,
                 datasets: [{
                     // lineTension: 0,
-                    fill: false,
+                    // fill: false,
                     label: "Registrations",
                     borderColor: '#1BA5E7',
                     data: y_axis,
+                    pointRadius:5,
+                    pointHoverRadius:10,
                 }]
             },
 
@@ -61,6 +67,11 @@
                 // legend :{
                 //     display:true,
                 // }
+                tooltips:{
+                    titleFontSize:16,
+                    bodyFontSize:12,
+                    
+                }
             }
         });
     }
@@ -84,10 +95,12 @@
                 labels: x_axis,
                 datasets: [{
                     // lineTension: 0,
-                    fill: false,
+                    // fill: false,
                     label: "Cancellation",
                     borderColor: '#1BA5E7',
                     data: y_axis,
+                    pointRadius:5,
+                    pointHoverRadius:10,
                 }]
             },
 
@@ -121,9 +134,9 @@
                     lineTension: 0,
                     fill: false,
                     label: "Assessments Processed",
-                    backgroundColor:'rgba(27, 156, 252,0.5)',
-                    hoverBorderColor: 'rgb(27, 156, 252)',
-                    borderWidth:1,
+                    backgroundColor:'rgba(27, 156, 252,0.8)',
+                    hoverBackgroundColor: '#5EFAF7',
+                    borderWidth:2,
                     data: y_axis,
                 }]
             },
@@ -159,8 +172,8 @@
                     fill: false,
                     label: "VDP",
                     data: y_axis,
-                    backgroundColor:['rgba(254, 164, 127,0.5)','rgba(37, 204, 247,0.5)','rgba(85, 230, 193,0.5)','rgba(179, 55, 113,0.5)','rgba(252, 66, 123,0.5)','rgba(24, 44, 97,0.5)'],
-                    hoverBorderColor:['rgba(254, 164, 127,1.0)','rgba(37, 204, 247,1.0)','rgba(85, 230, 193,1.0)','rgba(179, 55, 113,1.0)','rgba(252, 66, 123,1.0)','rgba(24, 44, 97,1.0)'],
+                    backgroundColor:['rgba(254, 164, 127,1)','rgba(37, 204, 247,1)','rgba(245, 229, 27, 1)','rgba(179, 55, 113,1)','rgba(252, 66, 123,1)','rgba(24, 44, 97,1)'],
+                    // hoverBorderColor:['rgba(254, 164, 127,1.0)','rgba(37, 204, 247,1.0)','rgba(245, 229, 27, 1)','rgba(179, 55, 113,1.0)','rgba(252, 66, 123,1.0)','rgba(24, 44, 97,1.0)'],
                 }]
             },
 
@@ -209,53 +222,46 @@
                 datasets: [{
                    label: 'MWBAssmntCompleted',
                    data: ds1,
-                   backgroundColor: 'rgba(239, 87, 119,1.0)',
+                   backgroundColor: '#003f5c',
+                //    borderColor: '#003f5c'
                 },
                 {
                    label: 'Mammogram',
                    data: ds2,
-                   backgroundColor: 'rgba(75, 207, 250,1.0)',
+                   backgroundColor: '#2f4b7c',
+                // borderColor:'#2f4b7c'
                 },
                 {
                    label: 'NonsmokersDeclrtn',
                    data: ds3,
-                   backgroundColor: 'rgba(52, 231, 228,1.0)',
+                   backgroundColor: '#665191',
                 },
                 {
                    label: 'PapSmear',
                    data: ds4,
-                   backgroundColor: 'rgba(11, 232, 129,1.0)',
+                   backgroundColor: '#a05195',
                 },
                 {
                    label: 'SVDocumentUploads',
                    data: ds5,
-                   backgroundColor: 'rgba(255, 221, 89,1.0)',
+                   backgroundColor: '#d45087',
                 },
                 {
                    label: 'VHCAssmntCompleted',
                    data: ds6,
-                   backgroundColor: 'rgba(87, 95, 207,1.0)',
+                   backgroundColor: '#f95d6a',
                 },
                 {
                    label: 'VHRAssmntCompleted',
                    data: ds7,
-                   backgroundColor: 'rgba(113, 88, 226,1.0)',
+                   backgroundColor: '#ff7c43',
                 },
                 {
                    label: 'VNAAssmntCompleted',
                    data: ds8,
-                   backgroundColor: 'rgba(255, 184, 184,1.0)',
+                   backgroundColor: '#ffa600',
                 }
-                ],
-
-                backgroundColor:['rgba(239, 87, 119,1.0)',
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ],
+                ]
             },
 
             // Configuration options go here
@@ -266,18 +272,135 @@
 					},
 					tooltips: {
 						mode: 'index',
-						intersect: false
+						intersect: false,
+                        bodyFontSize: 12,
+                        titleFontSize: 16,
+                        bodySpacing:4,
 					},
 					responsive: true,
 					scales: {
 						xAxes: [{
-							stacked: true,
+							// stacked: true,
 						}],
 						yAxes: [{
-							stacked: true
+							// stacked: true
 						}]
 					}
 				}
+        });
+    }
+
+    //Rewards Chart
+    {
+        let x_axis = []
+        let ds1 = []
+        let ds2 = []
+        let ds3 = []
+        let ds4 = []
+        let ds5 = []
+
+        {% for x  in reward_sli %}
+            x_axis.push('{{ x.awarded_on }}') 
+            ds1.push(parseInt('{{ x.AppleWatchVitalityCoins}}'))
+            ds2.push(parseInt('{{ x.eGiftJPY500}}'))
+            ds3.push(parseInt('{{ x.MACHIcafedrinkS}}'))
+            ds4.push(parseInt('{{ x.Smoothies}}'))
+            ds5.push(parseInt('{{ x.WheelSpin}}'))
+        {% endfor%}
+        const ctx = document.getElementById('rewards_chart').getContext('2d');
+        var chart = new Chart(ctx, {
+
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: x_axis,
+                datasets: [{
+                   label: 'MWBAssmntCompleted',
+                   data: ds1,
+                   borderColor: 'rgba(31, 58, 147, 1)',
+                   backgroundColor: 'rgba(31, 58, 147, 0.2)',
+                //    fill: 'origin',
+                   pointRadius:5,
+                    pointHoverRadius:10,
+                    
+              
+                },
+                {
+                   label: 'Mammogram',
+                   data: ds2,
+                   borderColor: 'rgba(246, 36, 89, 1)',
+                   backgroundColor: 'rgba(246, 36, 89, 0.2)',
+                //    fill:false,
+                   pointRadius:5,
+                    pointHoverRadius:10,
+                    lineTension:0,
+               
+                },
+                {
+                   label: 'NonsmokersDeclrtn',
+                   data: ds3,
+                   borderColor: 'rgba(249, 105, 14, 1)',
+                   backgroundColor: 'rgba(249, 105, 14, 0.2)',
+                //    fill:false,
+                   pointRadius:5,
+                    pointHoverRadius:10,
+                    lineTension:0,
+                },
+                {
+                   label: 'PapSmear',
+                   data: ds4,
+                   borderColor: 'rgba(46, 204, 113, 1)',
+                   backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                //    fill:false,
+                   pointRadius:5,
+                    pointHoverRadius:10,
+                    lineTension:0,
+                },
+                {
+                   label: 'SVDocumentUploads',
+                   data: ds5,
+                   borderColor: 'rgba(25, 181, 254, 1)',
+                   backgroundColor: 'rgba(25, 181, 254, 0.2)',
+                //    fill:false,
+                   pointRadius:5,
+                   pointHoverRadius:10,
+                   lineTension:0,
+                },
+                ]
+            },
+
+            // Configuration options go here
+            options: {
+					title: {
+						display: true,
+						text: 'Rewards Allocated byDate'
+					},
+
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+                        bodyFontSize: 12,
+                        titleFontSize: 16,
+                        bodySpacing:4,
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							// stacked: true,
+						}],
+						yAxes: [{
+							// stacked: true
+						}]
+					},
+
+                    legend: {
+						labels: {
+							usePointStyle: false
+						}
+                        }
+                    }
         });
     }
 </script>
