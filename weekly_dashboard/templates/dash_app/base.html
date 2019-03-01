@@ -21,25 +21,20 @@
     <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <!-- chart js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <title>VG Dashboard</title>
 </head>
 
 <body style="background-color: rgb(246, 246, 246)">
     <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <div id="sidenav">
-           {% include 'dash_app/sidebar.html'%}
+    <div id="sidebar">
+        {% include 'dash_app/sidebar.html'%}
     </div>
     
     <div id="main">
         <!--Nav Bar-->
         <nav id="topnav" class="">
-            <!-- <a href="{% url 'home' %}">
-                <span id="brand" class="container">
-                    <i class="material-icons">
-                        dashboard
-                    </i>
-                    VG Dashboard
-                </span></a> -->
             <span id="topnav-links">
                 <ul>
                     <li><a href="{% url 'admin:index' %}">Admin</a></li>

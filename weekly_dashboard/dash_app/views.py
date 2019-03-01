@@ -28,8 +28,10 @@ def sli_dash(request):
     form = DateFilterForm(request.GET or None)
     if form.is_valid():
     #if request.GET.get("from_date") is not None and request.GET.get("to_date") is not None:
-        req_d1 = datetime.datetime.strptime(request.GET.get("from_date"), "%m/%d/%Y").strftime("%Y-%m-%d")
-        req_d2 = datetime.datetime.strptime(request.GET.get("to_date"), "%m/%d/%Y").strftime("%Y-%m-%d")
+        # req_d1 = datetime.datetime.strptime(request.GET.get("from_date"), "%m/%d/%Y").strftime("%Y-%m-%d")
+        # req_d2 = datetime.datetime.strptime(request.GET.get("to_date"), "%m/%d/%Y").strftime("%Y-%m-%d")
+        req_d1 = request.GET.get("from_date")
+        req_d2 = request.GET.get("to_date")
         d2 = req_d1
         d1 = req_d2 
     else:
@@ -81,7 +83,7 @@ def sli_dash(request):
     'daily_assess': daily_assess_formatted,
     'reward_sli':reward_sli_formatted,
     'vdp' : VDP_data,
-    'filter_form': DateFilterForm})
+    'filter_form': DateFilterForm })
 
 
 def kr_dash(request):

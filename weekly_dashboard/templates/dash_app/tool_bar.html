@@ -1,0 +1,19 @@
+<div class="container" id="tool_bar">
+    <div style="float: left; padding:5px;" class="lead">
+        {{ market }}
+    </div>
+    <div style="margin-right:20px;" class="container">
+        <form id="filter_form" class="container">
+            <label for="from_date">From</label>
+            <input type="date" name="from_date" id="from_date" placeholder="From">
+            <label for="from_date">To</label>
+            <input type="date" name="to_date" id="to_date" placeholder="To">
+            <button type="submit" id="submit_btn">Fetch</button>
+        </form>
+        <form style="display:inline" class="container">
+            <button type="submit" id="clear_btn">Clear</button>
+        </form>
+        <button id="export_btn">Export</button>
+    </div>
+
+</div>
