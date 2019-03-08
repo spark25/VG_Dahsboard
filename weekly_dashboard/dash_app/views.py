@@ -154,3 +154,5 @@ def kr_dash(request):
     'filter_form': DateFilterForm})
 
 
+def sli_reg_focus(request):
+    return HttpResponse('Hello')

@@ -3,43 +3,296 @@
 {% load good_key %}
 {% block content %}
 
-
-
 <!-- {% include 'dash_app/page_header.html' with market="SLI-Japan Dashboard" %} -->
-{% include 'dash_app/tool_bar.html' with market="SLI-Japan" %}
-<div class="wrapper">
-    <div class="card_box">
-        <div class="chart_title">Registraion Volumes</div>
-        <canvas id="reg_chart" width="300" height="150"></canvas>
-    </div>
+<div id="all_view">
+        {% include 'dash_app/tool_bar.html' with market="SLI-Japan" %}
+        <div class="wrapper">
+            <div class="card_box">
+               <div class="chart_title" onclick="return focusMe(this)">Registraion Volumes</div>
+                <canvas id="reg_chart" width="300" height="150"></canvas>
+            </div>
+                
+            <div class="card_box">
+                <div class="chart_title" onclick="return focusMe(this)">Membership Cancellation</div>
+                <canvas id="can_chart" width="300" height="150"></canvas>
+            </div>
+                
+            <div class="card_box">
+                <div class="chart_title" onclick="return focusMe(this)">Assessments Processed</div>
+                <canvas id="assess_chart" width="300" height="150"></canvas>
+            </div>
+                
+            <div class="card_box">
+                    <div class="chart_title" onclick="return focusMe(this)">VDP-Device Linking</div>
+                    <canvas id="vdp_chart" width="300" height="150"></canvas>
+            </div>
+            <div class="card_box" id="daily_assess_chart_div">
+                    <div class="chart_title" onclick="return focusMe(this)">Daily Overview of Assessments Processed</div>
+                    <canvas id="daily_assess_chart" width="400" height="150"></canvas>
+            </div>
         
-    <div class="card_box">
-        <div class="chart_title">Membership Cancellation</div>
-        <canvas id="can_chart" width="300" height="150"></canvas>
-    </div>
+            <div class="card_box" id="reward_chart_div">
+                <div class="chart_title" onclick="return focusMe(this)">Rewards Allocated by Date</div>
+                <canvas id="rewards_chart" width="400" height="150"></canvas>
+            </div>
         
-    <div class="card_box">
-        <div class="chart_title">Assessments Processed</div>
-        <canvas id="assess_chart" width="300" height="150"></canvas>
-    </div>
-        
-    <div class="card_box">
-            <div class="chart_title">VDP-Device Linking</div>
-            <canvas id="vdp_chart" width="300" height="150"></canvas>
-    </div>
-    <div class="card_box" id="daily_assess_chart_div">
-            <div class="chart_title">Daily Overview of Assessments Processed</div>
-            <canvas id="daily_assess_chart" width="400" height="150"></canvas>
-    </div>
-
-    <div class="card_box" id="reward_chart_div">
-        <div class="chart_title">Rewards Allocated by Date</div>
-        <canvas id="rewards_chart" width="400" height="150"></canvas>
-    </div>
-
+        </div>
 </div>
 
+<!-- Registration Focus -->
+<div id="reg_focus"  style="display: none;" class="focus_box">
+    <div class="chart_title">Rewards Allocated by Date <i class="fas fa-times" onclick="return hideThis(document.getElementById('reg_focus'))" style="float:right; font-size: 20px; padding:2px;"></i></div>
+    <canvas id="reg_chart_focus" class="focus" height="120"></canvas>
+    <hr>
+    <div class="focus-table">
+        <table class="table table-striped table-sm">
+            <thead class="table-dark">
+                <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Registration Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x  in reg_data %}
+                    <tr>
+                        <td>{{ x.date_time }}</td>
+                        <td>{{ x.count }}</td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<!-- Cancellation Focus -->
+<div id="can_focus"  style="display: none;" class="focus_box">
+        <div class="chart_title">Membership Cancellations by Date <i class="fas fa-times" onclick="return hideThis(document.getElementById('can_focus'))" style="float:right; font-size: 20px;"></i></div>
+        <canvas id="can_chart_focus" class="focus"  height="120"></canvas>
+        <hr>
+    
+        <div class="focus-table">
+            <table class="table table-striped table-sm">
+                <thead class="table-dark">
+                    <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Cancellation Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x  in can_data %}
+                        <tr>
+                            <td>{{ x.date_time }}</td>
+                            <td>{{ x.count }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+</div>
+
+<!-- Assessment chart focus -->
+<div id="assess_focus"  style="display: none;" class="focus_box">
+        <div class="chart_title">Assessments Processed<i class="fas fa-times" onclick="return hideThis(document.getElementById('assess_focus'))" style="float:right; font-size: 20px;"></i></div>
+        <canvas id="assess_chart_focus" class="focus"  height="120"></canvas>
+        <hr>
+    
+        <div class="focus-table">
+            <table class="table table-striped table-sm">
+                <thead class="table-dark">
+                    <tr>
+                    <th scope="col">Assessment</th>
+                    <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x  in assess_data %}
+                        <tr>
+                            <td>{{ x.event_type }}</td>
+                            <td>{{ x.count__sum }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+</div>
+
+<!-- VDP chart focus -->
+<div id="VDP_focus"  style="display: none;" class="focus_box">
+        <div class="chart_title">VDP-Device Linking<i class="fas fa-times" onclick="return hideThis(document.getElementById('VDP_focus'))" style="float:right; font-size: 20px;"></i></div>
+        <canvas id="vdp_chart_focus" class="focus"  height="120"></canvas>
+        <hr>
+    
+        <div class="focus-table">
+            <table class="table table-striped table-sm">
+                <thead class="table-dark">
+                    <tr>
+                    <th scope="col">Device Name</th>
+                    <th scope="col">Linking Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x  in vdp %}
+                        <tr>
+                            <td>{{ x.partner_system_name }}</td>
+                            <td>{{ x.count__sum }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+</div>
+
+<!-- Rewards Allocated by Date -->
+<div id="rewards_focus"  style="display: none;" class="focus_box">
+        <div class="chart_title">Rewards Allocated by Date<i class="fas fa-times" onclick="return hideThis(document.getElementById('rewards_focus'))" style="float:right; font-size: 20px;"></i></div>
+        <canvas id="reward_chart_focus" class="focus" height="120"></canvas>
+        <hr>
+    
+        <div class="focus-table">
+            <table class="table table-striped table-sm">
+                <thead class="table-dark">
+                    <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Apple Watch Vitality Coins</th>
+                    <th scope="col">eGift</th>
+                    <th scope="col">MACHI Cafe Drinks</th>
+                    <th scope="col">Smoothies</th>
+                    <th scope="col">WheelSpin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x  in reward_sli %}
+                        <tr>
+                            <td>{{ x.awarded_on }}</td>
+                            <td>{{ x.AppleWatchVitalityCoins }}</td>
+                            <td>{{ x.eGiftJPY500 }}</td>
+                            <td>{{ x.MACHIcafedrinkS }}</td>
+                            <td>{{ x.Smoothies }}</td>
+                            <td>{{ x.WheelSpin }}</td>
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+</div>
+
+<!-- Daily Overview of Assessments Processed -->
+<div id="d_assess_focus"  style="display: none;" class="focus_box">
+        <div class="chart_title">Daily Overview of Assessments Processed<i class="fas fa-times" onclick="return hideThis(document.getElementById('d_assess_focus'))" style="float:right; font-size: 20px;"></i></div>
+        <canvas id="d_assess_chart_focus" class="focus" height="120"></canvas>
+        <hr>
+    
+        <div class="focus-table">
+            <table class="table table-striped table-sm">
+                <thead class="table-dark">
+                    <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">MWBAssmntCompleted</th>
+                    <th scope="col">Mammogram</th>
+                    <th scope="col">NonsmokersDeclrtn</th>
+                    <th scope="col">PapSmear</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x  in daily_assess %}
+                        <tr>
+                            <td>{{ x.date_time }}</td>
+                            <td>{{ x.MWBAssmntCompleted }}</td>
+                            <td>{{ x.Mammogram }}</td>
+                            <td>{{ x.NonsmokersDeclrtn }}</td>
+                            <td>{{ x.PapSmear }}</td>
+                            
+                        </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="focus-table">
+                <table class="table table-striped table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">SVDocumentUploads</th>
+                        <th scope="col">VHCAssmntCompleted</th>
+                        <th scope="col">VHRAssmntCompleted</th>
+                        <th scope="col">VNAAssmntCompleted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x  in daily_assess %}
+                            <tr>
+                                <td>{{ x.date_time }}</td>
+                                <td>{{ x.SVDocumentUploads }}</td>
+                                <td>{{ x.VHCAssmntCompleted }}</td>
+                                <td>{{ x.VHRAssmntCompleted }}</td>
+                                <td>{{ x.VNAAssmntCompleted }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+</div>
+
+
 <script>
+    function focusMe(el) {
+        window.scrollTo(0, 0);
+        var mainDiv = document.getElementById('all_view')
+        mainDiv.style.display = 'none'
+        var chartDiv
+        key =el.innerHTML 
+        switch (key) {
+            case 'Registraion Volumes':
+                chartDiv = document.getElementById('reg_focus')
+                chartDiv.style.display = 'block'
+                create_reg_focus()
+                break;
+            
+            case 'Membership Cancellation':
+                chartDiv = document.getElementById('can_focus')
+                chartDiv.style.display = 'block'
+                create_can_focus()
+                break;
+
+            case 'Assessments Processed':
+                chartDiv = document.getElementById('assess_focus')
+                chartDiv.style.display = 'block'
+                create_assess_focus()
+                break;
+
+            case 'VDP-Device Linking':
+                chartDiv = document.getElementById('VDP_focus')
+                chartDiv.style.display = 'block'
+                create_vdp_focus()
+                break;
+            
+            case 'Rewards Allocated by Date':
+                chartDiv = document.getElementById('rewards_focus') 
+                chartDiv.style.display = 'block'
+                create_reward_focus()
+                break;
+
+            case 'Daily Overview of Assessments Processed':
+                chartDiv = document.getElementById('d_assess_focus')
+                chartDiv.style.display = 'block'
+                create_d_assess_focus()
+                break;
+
+            default:
+                break;
+        }
+        
+
+    }
+
+    function hideThis(el){
+        var mainDiv = document.getElementById('all_view')
+        // var chartDiv = document.getElementById('reg_focus')
+        mainDiv.style.display = 'block'
+        el.style.display = 'none'
+    }
 
 //GLOBAL CONFIGURATIONS
     Chart.defaults.global.tooltips.mode ='index',
@@ -49,10 +302,11 @@
     Chart.defaults.global.tooltips.bodySpacing = 4;
     Chart.defaults.global.elements.point.radius =5;
     Chart.defaults.global.elements.point.hoverRadius = 10;
-    Chart.defaults.global.elements.line.borderWidth = 2;
+    Chart.defaults.global.elements.line.borderWidth = 1;
     Chart.defaults.global.elements.line.tension = 0 ;
+    // Chart.defaults.scale.gridLines.display  =false;
 
-//GLOBAL CONFIGURATIONS
+//GLOBAL CONFIGURATIONS above
 
 //Registration Chart
 
@@ -89,10 +343,10 @@
             xAxes: [{
                 ticks: {
                     callback: function(value, index, values) {
-                        return value.substring(0, 6);
+                        return value.substring(0, 7);
                     }
-                }
-            }]
+                },
+            }],
         }
     }
     });
@@ -129,7 +383,7 @@
             xAxes: [{
                 ticks: {
                     callback: function(value, index, values) {
-                        return value.substring(0, 6);
+                        return value.substring(0, 7);
                     }
                 }
             }]
@@ -214,8 +468,6 @@
 
 
 //Daily Assess Chart
-
-
     let daily_assess_x_axis = []
     let daily_assess_ds1 = []
     let daily_assess_ds2 = []
@@ -296,7 +548,7 @@
                     xAxes: [{
                         ticks: {
                         callback: function(value, index, values) {
-                        return value.substring(0, 6);
+                        return value.substring(0, 7);
                     }
                 }
                     }],
@@ -374,7 +626,7 @@
                     xAxes: [{
                         ticks:{
                             callback: function(value, index, values) {
-                            return value.substring(0, 6);
+                            return value.substring(0, 7);
                     }
                         },
                     }],
@@ -385,6 +637,342 @@
 
                 }
     });
+
+    function create_reg_focus(){
+    let reg_focus_x_axis = []
+    let reg_y_focus_axis = []
+{% for x  in reg_data %}
+    reg_focus_x_axis.push('{{ x.date_time }}') 
+    reg_y_focus_axis.push(parseInt('{{ x.count }}'))
+{% endfor%}
+const reg_chart_focus = document.getElementById('reg_chart_focus').getContext('2d');
+var chart = new Chart(reg_chart_focus, {
+
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: reg_focus_x_axis,
+        datasets: [{
+            // lineTension: 0,
+            // fill: false,
+            label: "Registrations",
+            borderColor: 'rgba(34, 167, 240, 1)',
+            backgroundColor:'rgba(34, 167, 240, 0.1)',
+            data: reg_y_focus_axis,
+            // pointRadius:5,
+            // pointHoverRadius:10,
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+    scales: {
+        xAxes: [{
+            ticks: {
+                callback: function(value, index, values) {
+                    return value.substring(0, 7);
+                }
+            }
+        }]
+    }
+}
+});
+}
+
+function create_can_focus(){
+    let can_x_axis = []
+    let can_y_axis = []
+    {% for x  in can_data %}
+        can_x_axis.push('{{ x.date_time }}') 
+        can_y_axis.push(parseInt('{{ x.count }}'))
+    {% endfor%}
+    const can_chart = document.getElementById('can_chart_focus').getContext('2d');
+    var chart = new Chart(can_chart, {
+
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: can_x_axis,
+            datasets: [{
+                label: "Cancellation",
+                borderColor: 'rgba(34, 167, 240, 1)',
+                backgroundColor:'rgba(34, 167, 240, 0.1)',
+                data: can_y_axis,
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            scales: {
+            xAxes: [{
+                ticks: {
+                    callback: function(value, index, values) {
+                        return value.substring(0, 7);
+                    }
+                }
+            }]
+        }
+        }
+    });
+}
+
+function create_assess_focus(){
+    let assess_x_axis = []
+    let assess_y_axis = []
+    {% for x  in assess_data %}
+        assess_x_axis.push('{{ x.event_type }}') 
+        assess_y_axis.push(parseInt('{{ x.count__sum }}'))
+    {% endfor%}
+    const assess_chart = document.getElementById('assess_chart_focus').getContext('2d');
+    var chart = new Chart(assess_chart, {
+
+        // The type of chart we want to create
+        type: 'horizontalBar',
+
+        // The data for our dataset
+        data: {
+            labels: assess_x_axis,
+            datasets: [{
+                lineTension: 0,
+                fill: false,
+                label: "Assessments Processed",
+                backgroundColor:'rgba(34, 167, 240, 0.2)',
+                borderColor:'rgba(34, 167, 240, 1)',
+                hoverBackgroundColor: 'rgba(34, 167, 240, 0.4)',
+                borderWidth:2,
+                data: assess_y_axis,
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            tooltips:{
+                mode:'point',
+            }
+        }
+    });
+
+}
+
+function create_vdp_focus(){
+    let vdp_x_axis = []
+    let vdp_y_axis = []
+    {% for x  in vdp %}
+        vdp_x_axis.push('{{ x.partner_system_name }}') 
+        vdp_y_axis.push(parseInt('{{ x.count__sum }}'))
+    {% endfor%}
+    const vdp_chart = document.getElementById('vdp_chart_focus').getContext('2d');
+    var chart = new Chart(vdp_chart, {
+
+        // The type of chart we want to create
+        type: 'doughnut',
+
+        // The data for our dataset
+        data: {
+            labels: vdp_x_axis,
+            datasets: [{
+                lineTension: 0,
+                fill: false,
+                label: "VDP",
+                data: vdp_y_axis,
+                backgroundColor:['rgba(254, 164, 127,1)','rgba(37, 204, 247,1)','rgba(245, 229, 27, 1)','rgba(179, 55, 113,1)','rgba(252, 66, 123,1)','rgba(24, 44, 97,1)'],
+                // hoverBorderColor:['rgba(254, 164, 127,1.0)','rgba(37, 204, 247,1.0)','rgba(245, 229, 27, 1)','rgba(179, 55, 113,1.0)','rgba(252, 66, 123,1.0)','rgba(24, 44, 97,1.0)'],
+            }]
+        },
+
+        // Configuration options go here
+        options: {
+            anmation:{
+                animateRotate: false,
+                animateScale: true,
+            },
+
+            tooltips:{
+                index: true,
+                mode:'nearest'
+            }
+        }
+    });
+
+}
+
+function create_d_assess_focus(){
+    let daily_assess_x_axis = []
+    let daily_assess_ds1 = []
+    let daily_assess_ds2 = []
+    let daily_assess_ds3 = []
+    let daily_assess_ds4 = []
+    let daily_assess_ds5 = []
+    let daily_assess_ds6 = []
+    let daily_assess_ds7 = []
+    let daily_assess_ds8 = []
+    {% for x  in daily_assess %}
+        daily_assess_x_axis.push('{{ x.date_time }}') 
+        daily_assess_ds1.push(parseInt('{{ x.MWBAssmntCompleted}}'))
+        daily_assess_ds2.push(parseInt('{{ x.Mammogram}}'))
+        daily_assess_ds3.push(parseInt('{{ x.NonsmokersDeclrtn}}'))
+        daily_assess_ds4.push(parseInt('{{ x.PapSmear}}'))
+        daily_assess_ds5.push(parseInt('{{ x.SVDocumentUploads}}'))
+        daily_assess_ds6.push(parseInt('{{ x.VHCAssmntCompleted}}'))
+        daily_assess_ds7.push(parseInt('{{ x.VHRAssmntCompleted}}'))
+        daily_assess_ds8.push(parseInt('{{ x.VNAAssmntCompleted}}'))
+    {% endfor%}
+    const daily_chart = document.getElementById('d_assess_chart_focus').getContext('2d');
+    var chart = new Chart(daily_chart, {
+
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: daily_assess_x_axis,
+            datasets: [{
+                label: 'MWBAssmntCompleted',
+                data: daily_assess_ds1,
+                backgroundColor: '#003f5c',
+            //    borderColor: '#003f5c'
+            },
+            {
+                label: 'Mammogram',
+                data: daily_assess_ds2,
+                backgroundColor: '#2c82c9',
+            // borderColor:'#2f4b7c'
+            },
+            {
+                label: 'NonsmokersDeclrtn',
+                data: daily_assess_ds3,
+                backgroundColor: '#665191',
+            },
+            {
+                label: 'PapSmear',
+                data: daily_assess_ds4,
+                backgroundColor: '#a05195',
+            },
+            {
+                label: 'SVDocumentUploads',
+                data: daily_assess_ds5,
+                backgroundColor: '#d45087',
+            },
+            {
+                label: 'VHCAssmntCompleted',
+                data: daily_assess_ds6,
+                backgroundColor: '#f95d6a',
+            },
+            {
+                label: 'VHRAssmntCompleted',
+                data: daily_assess_ds7,
+                backgroundColor: '#ff7c43',
+            },
+            {
+                label: 'VNAAssmntCompleted',
+                data: daily_assess_ds8,
+                backgroundColor: '#ffa600',
+            }
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                        callback: function(value, index, values) {
+                        return value.substring(0, 7);
+                    }
+                }
+                    }],
+                    yAxes: [{
+                        // stacked: true
+                    }]
+                }
+            }
+    });
+
+
+
+}
+
+function create_reward_focus(){
+    let rewards_x_axis = []
+    let rewards_ds1 = []
+    let rewards_ds2 = []
+    let rewards_ds3 = []
+    let rewards_ds4 = []
+    let rewards_ds5 = []
+
+    {% for x  in reward_sli %}
+        rewards_x_axis.push('{{ x.awarded_on }}') 
+        rewards_ds1.push(parseInt('{{ x.AppleWatchVitalityCoins}}'))
+        rewards_ds2.push(parseInt('{{ x.eGiftJPY500}}'))
+        rewards_ds3.push(parseInt('{{ x.MACHIcafedrinkS}}'))
+        rewards_ds4.push(parseInt('{{ x.Smoothies}}'))
+        rewards_ds5.push(parseInt('{{ x.WheelSpin}}'))
+    {% endfor%}
+    const rewards_chart = document.getElementById('reward_chart_focus').getContext('2d');
+    var chart = new Chart(rewards_chart, {
+
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: rewards_x_axis,
+            datasets: [{
+                label: 'Apple Watch Vitality Coins',
+                data: rewards_ds1,
+                borderColor: 'rgba(31, 58, 147, 1)',
+                backgroundColor: 'rgba(31, 58, 147, 0.1)',
+            },
+            {
+                label: 'eGift(JPY500)',
+                data: rewards_ds2,
+                borderColor: 'rgba(246, 36, 89, 1)',
+                backgroundColor: 'rgba(246, 36, 89, 0.1)',
+            },
+            {
+                label: 'MACHI cafe drinks',
+                data: rewards_ds3,
+                borderColor: 'rgba(249, 105, 14, 1)',
+                backgroundColor: 'rgba(249, 105, 14, 0.1)',
+         
+            },
+            {
+                label: 'Smoothies',
+                data: rewards_ds4,
+                borderColor: 'rgba(46, 204, 113, 1)',
+                backgroundColor: 'rgba(46, 204, 113, 0.1)',
+            },
+            {
+                label: 'Wheel Spin',
+                data: rewards_ds5,
+                borderColor: 'rgba(25, 181, 254, 1)',
+                backgroundColor: 'rgba(25, 181, 254, 0.1)',
+            },
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+                scales: {
+                    xAxes: [{
+                        ticks:{
+                            callback: function(value, index, values) {
+                            return value.substring(0, 7);
+                    }
+                        },
+                    }],
+                    yAxes: [{
+                        // stacked: true
+                    }]
+                },
+
+                }
+    });
+}
 
 </script>
 {% endblock content %}
