@@ -8,31 +8,31 @@
         {% include 'dash_app/tool_bar.html' with market="SLI-Japan" %}
         <div class="wrapper">
             <div class="card_box">
-               <div class="chart_title" onclick="return focusMe(this)">Registraion Volumes</div>
+               <div class="chart_title" onclick="return focusMe(this)" id="reg_title">Registraion Volumes</div>
                 <canvas id="reg_chart" width="300" height="150"></canvas>
             </div>
                 
             <div class="card_box">
-                <div class="chart_title" onclick="return focusMe(this)">Membership Cancellation</div>
+                <div class="chart_title" onclick="return focusMe(this)"" id="can_title">Membership Cancellation</div>
                 <canvas id="can_chart" width="300" height="150"></canvas>
             </div>
                 
             <div class="card_box">
-                <div class="chart_title" onclick="return focusMe(this)">Assessments Processed</div>
+                <div class="chart_title" onclick="return focusMe(this)" id="assess_title">Assessments Processed</div>
                 <canvas id="assess_chart" width="300" height="150"></canvas>
             </div>
                 
             <div class="card_box">
-                    <div class="chart_title" onclick="return focusMe(this)">VDP-Device Linking</div>
+                    <div class="chart_title" onclick="return focusMe(this)" id="vdp_title">VDP-Device Linking</div>
                     <canvas id="vdp_chart" width="300" height="150"></canvas>
             </div>
             <div class="card_box" id="daily_assess_chart_div">
-                    <div class="chart_title" onclick="return focusMe(this)">Daily Overview of Assessments Processed</div>
+                    <div class="chart_title" onclick="return focusMe(this)" id="d_assess_title">Daily Overview of Assessments Processed</div>
                     <canvas id="daily_assess_chart" width="400" height="150"></canvas>
             </div>
         
             <div class="card_box" id="reward_chart_div">
-                <div class="chart_title" onclick="return focusMe(this)">Rewards Allocated by Date</div>
+                <div class="chart_title" onclick="return focusMe(this)" id="rewards_title">Rewards Allocated by Date</div>
                 <canvas id="rewards_chart" width="400" height="150"></canvas>
             </div>
         
@@ -41,7 +41,7 @@
 
 <!-- Registration Focus -->
 <div id="reg_focus"  style="display: none;" class="focus_box">
-    <div class="chart_title">Rewards Allocated by Date <i class="fas fa-times" onclick="return hideThis(document.getElementById('reg_focus'))" style="float:right; font-size: 20px; padding:2px;"></i></div>
+    <div class="chart_title">Registration Volume by Date <i class="fas fa-times" onclick="return hideThis(document.getElementById('reg_focus'))" style="float:right; font-size: 20px; padding:2px;"></i></div>
     <canvas id="reg_chart_focus" class="focus" height="120"></canvas>
     <hr>
     <div class="focus-table">
@@ -210,7 +210,8 @@
         </div>
 
         <div class="focus-table">
-                <table class="table table-striped table-sm">
+                <table class="table table-striped table-sm
+                ">
                     <thead class="table-dark">
                         <tr>
                         <th scope="col">Date</th>
@@ -289,7 +290,10 @@
 
     function hideThis(el){
         var mainDiv = document.getElementById('all_view')
-        // var chartDiv = document.getElementById('reg_focus')
+        var side_active = document.getElementsByClassName('side_active')
+        if(side_active[0]){
+            side_active[0].classList.remove("side_active")
+        }
         mainDiv.style.display = 'block'
         el.style.display = 'none'
     }

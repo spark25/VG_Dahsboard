@@ -131,6 +131,7 @@
 }
 
 .side-ul li{
+    margin-top:2px;
     font-size: 12px;
     font-weight: 700;
     position: relative;
@@ -148,8 +149,12 @@
 }
 
 .side-ul li i:hover{
-
     color: #1BA5E7;
+}
+
+.side_active{ 
+    background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+    color: #fff;
 }
 
 
@@ -397,3 +402,4 @@
 .fa-times:hover{
     color: rgb(238, 99, 89);
 }
+

@@ -11,12 +11,64 @@
     <a href="{% url 'sli_dash'%}" class="side-links"><div class="side-head sli-side">SLI-JAPAN</div></a> 
     <a href="{% url 'kr_dash'%}" class="side-links"><div class="side-head kr-side">AIA-KOREA</div></a> 
     <ul class="side-ul">
-        <a href="#"><li><i class="fas fa-file-signature"></i> REGISTRATION</li></a>
-        <li><i class="fas fa-ban"></i> CANCELLATIONS</li>
-        <li><i class="fas fa-clipboard-check"> </i> ASSESSMENTS</li>
-        <li><i class="fas fa-tasks"></i> DAILY ASSESSMENTS</li>
-        <li><i class="fas fa-mobile"></i> VDP</li>
-        <li><i class="fas fa-trophy"></i> REWARDS</li>
+        <li {% if request.resolver_match.url_name == 'sli_dash' %} 
+        onclick="return focusMe(document.getElementById('reg_title'))"
+        {% else %}
+        onclick="return NaN" 
+        {% endif %}><i class="fas fa-file-signature"></i> REGISTRATION</li>
+        <li {% if request.resolver_match.url_name == 'sli_dash' %} 
+        onclick="return focusMe(document.getElementById('can_title'))" 
+        {% else %}
+        onclick="return NaN" 
+        {% endif %}><i class="fas fa-ban"></i> CANCELLATIONS</li>
+        <li {% if request.resolver_match.url_name == 'sli_dash' %} 
+        onclick="return focusMe(document.getElementById('assess_title'))" 
+        {% else %}
+        onclick="return NaN" 
+        {% endif %}><i class="fas fa-clipboard-check"></i> ASSESSMENTS</li>
+        <li {% if request.resolver_match.url_name == 'sli_dash' %} 
+        onclick="return focusMe(document.getElementById('d_assess_title'))" 
+        {% else %}
+        onclick="return NaN" 
+        {% endif %}><i class="fas fa-tasks"></i> DAILY ASSESSMENTS</li>
+        <li {% if request.resolver_match.url_name == 'sli_dash' %} 
+        onclick="return focusMe(document.getElementById('vdp_title'))" 
+        {% else %}
+        onclick="return NaN" 
+        {% endif %}><i class="fas fa-mobile"></i> VDP</li>
+        <li {% if request.resolver_match.url_name == 'sli_dash' %} 
+        onclick="return focusMe(document.getElementById('rewards_title'))" 
+        {% else %}
+        onclick="return NaN" 
+        {% endif %}><i class="fas fa-trophy"></i> REWARDS</li>
         <li><i class="fab fa-font-awesome-flag"></i> GOALS</li>
     </ul>
 </div>
+
+<script>
+$(".side-ul > li").click(function() {  
+    $(".side-ul > li").removeClass("side_active"); 
+    $(".focus_box").css('display', 'none');
+    if(this.innerHTML.includes('REG')){
+        $("#reg_focus").css('display', 'block');
+    }
+    else if(this.innerHTML.includes('CAN')){
+        $("#can_focus").css('display', 'block');
+    }
+    else if(this.innerHTML.includes('<i class="fas fa-clipboard-check"></i> ASSESSMENTS')){
+        $("#assess_focus").css('display', 'block');
+    }
+    else if(this.innerHTML.includes('VDP')){
+        $("#VDP_focus").css('display', 'block');
+    }
+    else if(this.innerHTML.includes('DAILY ASSESSMENTS')){
+        $("#d_assess_focus").css('display', 'block');
+    }
+    else if(this.innerHTML.includes('REWARD')){
+        $("#rewards_focus").css('display', 'block');
+    }
+    else
+        console.log('GOALS')
+    $(this).addClass("side_active");
+})
+</script>
